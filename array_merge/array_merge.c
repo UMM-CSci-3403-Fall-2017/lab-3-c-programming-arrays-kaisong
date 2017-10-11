@@ -152,8 +152,6 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		array1 = get_part_of_array(array0);
 		mergesort(size,array1);
 		result = put_back_to_array(size,array1);
-		free(array0);
-		free(array1);
 		return result;
 	} else {
 		test = (int*) two_array_merge1(sizes[0],values[0],sizes[1],values[1]);
@@ -165,9 +163,6 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		array1 = get_part_of_array(array0);
 		mergesort(size,array1);
 		result = put_back_to_array(size,array1);
-		free(test);
-		free(array0);
-		free(array1);
 		return result;
 	}
 }
