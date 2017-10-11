@@ -70,7 +70,7 @@ int* check_dupl1(int* array){
 			pointer++;
 		}
 	}
-	ff=(int*) calloc(pointer,sizeof(int));
+	ff=(int*) calloc(pointer+1,sizeof(int));
 	ff[0]=pointer;
 	for (k = 0; k < pointer; k++){
 		ff[k+1] = jj[k];
@@ -98,7 +98,7 @@ int* check_dupl2(int size,int* array){
 			pointer++;
 		}
 	}
-	ff=(int*) calloc(pointer,sizeof(int));
+	ff=(int*) calloc(pointer+1,sizeof(int));
 	ff[0]=pointer;
 	for (k = 0; k < pointer; k++){
 		ff[k+1] = jj[k];
@@ -142,6 +142,7 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 	int* array0;
 	int* array1;
 	int size;
+	int* testf;
 	if (num_arrays == 0){
 		result =(int*) calloc(1,sizeof(int));
 		result[0]=0;
@@ -152,17 +153,24 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		array1 = get_part_of_array(array0);
 		mergesort(size,array1);
 		result = put_back_to_array(size,array1);
+		free(array0);
+		free(array1);
 		return result;
 	} else {
 		test = (int*) two_array_merge1(sizes[0],values[0],sizes[1],values[1]);
 		for (i = 2; i < num_arrays; i++){
+			testf = test;
 			test = (int*) two_array_merge2(test,sizes[i],values[i]);
+			free(testf);
 		}
 		array0 = check_dupl1(test);
 		size = array0[0];
 		array1 = get_part_of_array(array0);
 		mergesort(size,array1);
 		result = put_back_to_array(size,array1);
+		free(array0);
+		free(array1);
+		free(test);
 		return result;
 	}
 }
