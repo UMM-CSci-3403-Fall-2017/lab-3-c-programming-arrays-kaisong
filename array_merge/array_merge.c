@@ -10,14 +10,14 @@ int* two_array_merge1(int size1, int* array1, int size2, int* array2){
 	int* fin;
 	int i,j,k;
 
-	jj =(int*)  calloc(size1+size2, sizeof(int));
+	jj =(int*) calloc(size1+size2,sizeof(int));
 	for (i = 0; i < size1; i++){
 		jj[i] = array1[i];
 	}
 	for (j = 0; j < size2; j++){
 		jj[size1+j] = array2[j];
 	}
-	fin =(int*)  calloc(size1+size2+1,sizeof(int));
+	fin =(int*) calloc(size1+size2+1,sizeof(int));
 	fin[0] = size1+size2;
 	for (k = 0; k < size1+size2; k++){
 		fin[k+1] = jj[k];
@@ -58,7 +58,7 @@ int* check_dupl1(int* array){
 	int size;
 	size = array[0];
 	jj=(int*) calloc(size+1,sizeof(int));
-	for (i = 1; i < size; i++){
+	for (i = 1; i < size+1; i++){
 		repeatTimes = 0;
 		for (j = i+1; j < size+1; j++){
 			if (array[i] == array[j]){
@@ -70,14 +70,10 @@ int* check_dupl1(int* array){
 			pointer++;
 		}
 	}
-	jj[pointer] = array[size];
-	pointer++;
 	ff=(int*) calloc(pointer,sizeof(int));
 	ff[0]=pointer;
-	printf("%i\n",ff[0]);
 	for (k = 0; k < pointer; k++){
 		ff[k+1] = jj[k];
-		printf("%i\n",ff[k+1]);
 	}
 	free(jj);
 	return ff;
@@ -90,7 +86,7 @@ int* check_dupl2(int size,int* array){
 	int repeatTimes;
 	int pointer=0;
 	jj=(int*) calloc(size+1,sizeof(int));
-	for (i = 0; i < size-1; i++){
+	for (i = 0; i < size; i++){
 		repeatTimes = 0;
 		for (j = i+1; j < size; j++){
 			if (array[i] == array[j]){
@@ -102,8 +98,6 @@ int* check_dupl2(int size,int* array){
 			pointer++;
 		}
 	}
-	jj[pointer] = array[size-1];
-	pointer++;
 	ff=(int*) calloc(pointer,sizeof(int));
 	ff[0]=pointer;
 	for (k = 0; k < pointer; k++){
@@ -119,9 +113,9 @@ int* get_part_of_array(int* array){
 	int* fin;
 	int i;
 	size = array[0];
-	fin = (int*) calloc(size-1,sizeof(int));
-	for (i = 1; i < size; i++){
-		fin[i-1] = array[i];
+	fin = (int*) calloc(size,sizeof(int));
+	for (i = 0; i < size; i++){
+		fin[i] = array[i+1];
 	}
 	return fin;
 }
@@ -149,7 +143,8 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 	int* array1;
 	int size;
 	if (num_arrays == 0){
-		result = {0};
+		result =(int*) calloc(1,sizeof(int));
+		result[0]=0;
 		return result;
 	} else if (num_arrays == 1){
 		array0 = check_dupl2(sizes[0],values[0]);
@@ -157,6 +152,8 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		array1 = get_part_of_array(array0);
 		mergesort(size,array1);
 		result = put_back_to_array(size,array1);
+		free(array0);
+		free(array1);
 		return result;
 	} else {
 		test = (int*) two_array_merge1(sizes[0],values[0],sizes[1],values[1]);
@@ -168,6 +165,9 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		array1 = get_part_of_array(array0);
 		mergesort(size,array1);
 		result = put_back_to_array(size,array1);
+		free(test);
+		free(array0);
+		free(array1);
 		return result;
 	}
 }
